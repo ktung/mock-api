@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,8 +39,8 @@ public class Api extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		LOGGER.info("GET Request");
 
-		String param = req.getParameter("param");
-		LOGGER.info(String.format("parameters { param = %s }", param));
+		logParameters(req);
+
 	}
 
 	@Override
@@ -68,10 +69,10 @@ public class Api extends HttpServlet {
 				while (it.hasNext()) {
 					FileItem item = it.next();
 					if (!item.isFormField()) {
-						LOGGER.info(String.format("files { fieldName = %s, filename = %s }", item.getFieldName(),
+						LOGGER.info(String.format("file { fieldName = %s, filename = %s }", item.getFieldName(),
 						        item.getName()));
 					} else {
-						LOGGER.info(String.format("params { fieldName = %s, value = %s }", item.getFieldName(),
+						LOGGER.info(String.format("param { fieldName = %s, value = %s }", item.getFieldName(),
 						        item.getString()));
 
 					}
@@ -81,9 +82,40 @@ public class Api extends HttpServlet {
 				LOGGER.error("Parsing file items : ", e);
 			}
 		} else {
-			String param = req.getParameter("param");
-			LOGGER.info(String.format("parameters { param = %s }", param));
+			logParameters(req);
 		}
+	}
+
+	private void logParameters(HttpServletRequest req) {
+		Map<String, String[]> params = req.getParameterMap();
+
+		params.forEach((k, v) -> {
+			String paramLog = "param { ";
+			paramLog += String.format("%s = ", k);
+			for (String val : v) {
+				paramLog += String.format("%s ", val);
+			}
+
+			paramLog += " }";
+			LOGGER.info(paramLog);
+		});
+
+//		String paramsLog = "parameters { ";
+//		Iterator<Entry<String, String[]>> it = params.entrySet().iterator();
+//		while (it.hasNext()) {
+//			Map.Entry<String, String[]> entry = it.next();
+//			String key = entry.getKey();
+//			String[] values = entry.getValue();
+//
+//			paramsLog += String.format("%s = ", key);
+//			for (String val : values) {
+//				paramsLog += String.format("%s ", val);
+//			}
+//
+//			paramsLog += ", ";
+//		}
+//		paramsLog += " }";
+//		LOGGER.info(paramsLog);
 	}
 
 }
