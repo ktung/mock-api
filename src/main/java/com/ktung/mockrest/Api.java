@@ -1,4 +1,4 @@
-package com.ktung.mockapi;
+package com.ktung.mockrest;
 
 import java.io.File;
 import java.io.IOException;
