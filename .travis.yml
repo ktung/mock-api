@@ -1,0 +1,14 @@
+language: java
+
+addons:
+  sonarcloud:
+    organization: "ktung-github"
+script:
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+
+deploy:
+  - provider: heroku
+  api_key:
+    secure: H4JSqit+EzjGMdIp+UkEsVVvE9mUWRGP0OO2XgOYzRZcNqB8Zj1fm/YXyqxI+DbR72vyGh5Gc0yXrl/yOJluLT1IORl0H0dT1VJZbjxpgjM+hKPKLWVAo58OuojtOkxEb+eZ2dM/cC3lA2ydAwXwl84s/0XoBF3wXHEmRdhOmu0fTjZwCnOM5UgOywq7RXQTSVwtZsgiElKDvffVrEj4/EszHdDWylYp2HaqH2PB0BOOnDWIKJChki5U5eRNAyOAdIgGMdVSu/RZLhzr7fG578LkEqu1//fIs4+qlYi/aCAhMG2DzFkOOVuW6ioQaybO+yltLxiSgX7wrwFExnzhDOmcoTp9lqlsuBzAQMt0xLNT/FQqOlvn+ZpJg35o1Kxe1Edp2BcicJDvI+7lTPY/HyXv7bxx5nij90s3FRUmEokjrymA2RsEpyCZSqy5foNJoKSV/qFULCeNCO+8oErqduIRRj5Exm05rHfTLz2zxRbqTIuJyMo+jgB19PzPFfsaqT/Br3YBx4fxCsW3L8xBac3XTetGoYmKzBTc/uXg1vTYQ4B1ZyONZQ2u/MdfWxbYV+XUvU3jg5CJHRdpmNFCUQFXfvQzA1rcHKKBULl4iY+DrSe6MxlRLYtSbav/rbqugcaSuewnjBbxQsFN2j0XNmshh4mVoc1uYV2cmO4Dm/k=
+
